@@ -27,16 +27,21 @@ The API will be available at `http://localhost:8000`.
 
 ### Running with OpenTelemetry (Bluebox)
 
-1. Copy `.env.otel.bluebox-template` to `.env.otel` (already done — it is git-ignored).
+1. Copy `.env.otel.bluebox-template` to `.env.otel` (git-ignored):
+   ```bash
+   cp .env.otel.bluebox-template .env.otel
+   ```
 2. Open Bluebox → Onboarding → Instrumentation setup → **Reveal token**.
-3. Replace `REPLACE_WITH_YOUR_DYNATRACE_TOKEN` in `.env.otel` with your token.
+3. Add your ingest token to `.env.otel`:
+   ```env
+   OTEL_EXPORTER_OTLP_HEADERS=Authorization=Api-Token <your-ingest-token>
+   ```
 4. Start the server through the OTel launcher:
+   ```bash
+   uv run --env-file .env.otel opentelemetry-instrument uvicorn app.main:app
+   ```
 
-```bash
-uv run --env-file .env.otel opentelemetry-instrument uvicorn app.main:app
-```
-
-The `opentelemetry-instrument` wrapper auto-instruments FastAPI, SQLAlchemy, and HTTP clients with zero code changes.
+The `opentelemetry-instrument` wrapper auto-instruments FastAPI, SQLAlchemy, and HTTP clients with zero code changes. Traces, metrics, and logs are exported to the endpoint configured in `.env.otel`.
 
 ### Interactive API Documentation
 
