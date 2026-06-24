@@ -2,6 +2,7 @@ __pycache__/
 *.py[cod]
 .env
 .env.otel
+.env.local
 *.db
 .venv/
 dist/

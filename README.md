@@ -33,7 +33,7 @@ The API will be available at `http://localhost:8000`.
 4. Start the server through the OTel launcher:
 
 ```bash
-env $(grep -v '^#' .env.otel | xargs) uv run opentelemetry-instrument uvicorn app.main:app
+uv run --env-file .env.otel opentelemetry-instrument uvicorn app.main:app
 ```
 
 The `opentelemetry-instrument` wrapper auto-instruments FastAPI, SQLAlchemy, and HTTP clients with zero code changes.
