@@ -14,7 +14,12 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="Habit Tracker", version="0.1.0", lifespan=lifespan)
+app = FastAPI(
+    title="Habit Tracker",
+    version="0.1.0",
+    description="Backend API for tracking daily and weekly habits. All habit endpoints require a Bearer token obtained from `/api/auth/login`.",
+    lifespan=lifespan,
+)
 
 
 @app.exception_handler(RequestValidationError)
