@@ -12,9 +12,10 @@ A FastAPI-based REST API for managing daily and weekly habits. Features user aut
 
 ```bash
 uv sync --extra dev
+uv run opentelemetry-bootstrap -a install
 ```
 
-This installs all dependencies including dev tools (pytest, httpx).
+`opentelemetry-bootstrap` auto-detects the installed packages and installs the matching OTel instrumentation libraries (FastAPI, SQLAlchemy, etc.).
 
 ### Running the Server
 
@@ -23,6 +24,19 @@ uv run uvicorn app.main:app --reload
 ```
 
 The API will be available at `http://localhost:8000`.
+
+### Running with OpenTelemetry (Bluebox)
+
+1. Copy `.env.otel.bluebox-template` to `.env.otel` (already done — it is git-ignored).
+2. Open Bluebox → Onboarding → Instrumentation setup → **Reveal token**.
+3. Replace `REPLACE_WITH_YOUR_DYNATRACE_TOKEN` in `.env.otel` with your token.
+4. Start the server through the OTel launcher:
+
+```bash
+env $(grep -v '^#' .env.otel | xargs) uv run opentelemetry-instrument uvicorn app.main:app
+```
+
+The `opentelemetry-instrument` wrapper auto-instruments FastAPI, SQLAlchemy, and HTTP clients with zero code changes.
 
 ### Interactive API Documentation
 
